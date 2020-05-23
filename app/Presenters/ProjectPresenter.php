@@ -2,42 +2,32 @@
 namespace App\Presenters;
 
 use Nette\Application\UI\Presenter;
+use Nette\Database\Context;
+
 class ProjectPresenter extends Presenter
 {
 
-    private $projects;
+    private $database;
 
-    public function __construct()
+    public function __construct(Context $db)
     {
         parent::__construct();
-        $this->projects = [
-            1=>[
-                "id"=>"1",
-                "title"=>"Project 1",
-                "content"=>"Content",
-                "image"=>"https://via.placeholder.com/100"
-            ],
-            2=>[
-                "id"=>"2",
-                "title"=>"Project 2",
-                "content"=>"Content",
-                "image"=>"https://via.placeholder.com/100"
-            ]
-        ];
+        $this->database = $db;
     }
 
     public function actionDefault(): void
     {
-        $this->template->projects = $this->projects;
+        $this->template->projects = $this->database->table("projects");
     }
 
     public  function actionView($id): void
     {
-        $project = $this->projects[$id];
+        $project = $this->database->table("projects")->get($id);
         if (!$project) {
             $this->flashMessage("Projekt neexistuje.", "error");
             $this->redirect("Project:default");
         }
         $this->template->project = $project;
     }
+
 }
