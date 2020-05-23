@@ -1,0 +1,17 @@
+{* This is the welcome page, you can delete it *}
+
+{block content}
+<div id="banner">
+    <h1 n:block=title>Projects</h1>
+</div>
+
+<div id="content">
+    {foreach $projects as $project}
+        <a style="padding: 4px;background: rgba(0,0,0,0.3);margin-bottom: 1rem;display: block" n:href="Project:view $project['id']">
+            <img src="{$project['image']}" alt="{$project['title']}]">
+            <h3>{$project['title']}</h3>
+            <p>{$project['content']}</p>
+        </a>
+    {/foreach}
+
+</div>
